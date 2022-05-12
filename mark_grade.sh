@@ -5,20 +5,20 @@ Build_and_Execute () {
     ProblemNumber="$(find ./ -maxdepth 1 -name '*.cpp' -type f -print -quit | grep -Po '\d+')"
     if g++ -fdiagnostics-color=always -pedantic-errors -std=c++11 -g "${ProblemNumber}".cpp -o "${ProblemNumber}"
     then
-        for file in $(ls ${Path} | grep input)
+        for file in $(ls ${Path} | grep in)
         do
             if [ -f ${Path}/"${file}" ]
             then
                 Number="$(ls ${Path}/"${file}" | grep -Po '\d+_\d+')"
-                ./"$ProblemNumber" < ${Path}/"${Number}".in > myoutput"${Number}".txt
-                if diff myoutput"${Number}".txt ${Path}/"${Number}".out --strip-trailing-cr 1>/dev/null 2>&1
-                then
-                    echo Testcase "${Number}" Passed
-                    rm myoutput"${Number}".txt
-                else
-                    echo Testcase "${Number}" Failed
-                    diff --color myoutput"${Number}".txt ${Path}/"${Number}".out 
-                fi
+                    ./"$ProblemNumber" < ${Path}/"${Number}".in > myoutput"${Number}".txt
+                    if diff myoutput"${Number}".txt ${Path}/"${Number}".out --strip-trailing-cr 1>/dev/null 2>&1
+                    then
+                        echo Testcase "${Number}" Passed
+                        rm myoutput"${Number}".txt
+                    else
+                        echo Testcase "${Number}" Failed
+                        diff --color myoutput"${Number}".txt ${Path}/"${Number}".out 
+                    fi
             fi
         done
     else
@@ -30,7 +30,7 @@ Build_and_Execute_C () {
     ProblemNumber="$(find ./ -maxdepth 1 -name '*.c' -type f -print -quit | grep -Po '\d+')"
     if gcc -fdiagnostics-color=always -pedantic-errors -std=c11 -g "${ProblemNumber}".c -o "${ProblemNumber}"
     then
-        for file in $(ls ${Path} | grep input)
+        for file in $(ls ${Path} | grep in)
         do
             if [ -f ${Path}/"${file}" ]
             then
